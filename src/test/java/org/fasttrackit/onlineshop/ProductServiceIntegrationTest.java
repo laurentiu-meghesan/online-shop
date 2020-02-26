@@ -34,7 +34,6 @@ public class ProductServiceIntegrationTest {
         assertThat(product.getName(), is(request.getName()));
         assertThat(product.getQuantity(), is(request.getQuantity()));
         assertThat(product.getPrice(), is(request.getPrice()));
-
     }
 
     @Test
