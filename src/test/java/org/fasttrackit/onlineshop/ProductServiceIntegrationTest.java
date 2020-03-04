@@ -18,18 +18,18 @@ import static org.hamcrest.Matchers.greaterThan;
 @SpringBootTest
 public class ProductServiceIntegrationTest {
 
-//  field-injection (injecting dependencies from IoC annotating the field itself)
+    //  field-injection (injecting dependencies from IoC annotating the field itself)
     @Autowired
     private ProductService productService;
 
     @Test
-    void createProduct_whenValidRequest_thenProductIsCreated(){
+    void createProduct_whenValidRequest_thenProductIsCreated() {
         createProduct();
     }
 
 
     @Test
-    void createProduct_whenMissingName_thenExceptionIIsThrown(){
+    void createProduct_whenMissingName_thenExceptionIIsThrown() {
         SaveProductRequest request = new SaveProductRequest();
         request.setQuantity(1);
         request.setPrice(100.0);
@@ -43,7 +43,7 @@ public class ProductServiceIntegrationTest {
     }
 
     @Test
-    void getProduct_whenExistingProduct_thenReturnProduct(){
+    void getProduct_whenExistingProduct_thenReturnProduct() {
         Product product = createProduct();
 
         Product response = productService.getProduct(product.getId());
@@ -58,12 +58,41 @@ public class ProductServiceIntegrationTest {
     }
 
     @Test
-    void getProduct_whenNonExistingProduct_thenThrowResourceNotFoundException(){
+    void getProduct_whenNonExistingProduct_thenThrowResourceNotFoundException() {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> productService.getProduct(99999));
     }
 
+    @Test
+    void updateProduct_whenValid_Request_thenReturnUpdatedProduct() {
+        Product product = createProduct();
 
-        private Product createProduct() {
+        SaveProductRequest request = new SaveProductRequest();
+        request.setName(product.getName() + "updated");
+        request.setDescription(product.getDescription() + "updated");
+        request.setPrice(product.getPrice() + 10);
+        request.setQuantity(product.getQuantity() + 10);
+
+        Product updatedProduct = productService.updateProduct(product.getId(), request);
+
+        assertThat(updatedProduct, notNullValue());
+        assertThat(updatedProduct.getId(), is(product.getId()));
+        assertThat(updatedProduct.getName(), is(request.getName()));
+        assertThat(updatedProduct.getDescription(), is(request.getDescription()));
+        assertThat(updatedProduct.getPrice(), is(request.getPrice()));
+        assertThat(updatedProduct.getQuantity(), is(request.getQuantity()));
+    }
+
+    @Test
+    void deleteProduct_whenExistingProduct_thenProductDoesNotExistAnymore() {
+        Product product = createProduct();
+
+        productService.deleteProduct(product.getId());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> productService.getProduct(product.getId()));
+    }
+
+
+    private Product createProduct() {
         SaveProductRequest request = new SaveProductRequest();
         request.setName("Phone");
         request.setQuantity(100);
