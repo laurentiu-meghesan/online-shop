@@ -27,9 +27,8 @@ public class ProductServiceIntegrationTest {
         createProduct();
     }
 
-
     @Test
-    void createProduct_whenMissingName_thenExceptionIIsThrown() {
+    void createProduct_whenMissingName_thenExceptionIsThrown() {
         SaveProductRequest request = new SaveProductRequest();
         request.setQuantity(1);
         request.setPrice(100.0);
@@ -63,7 +62,7 @@ public class ProductServiceIntegrationTest {
     }
 
     @Test
-    void updateProduct_whenValid_Request_thenReturnUpdatedProduct() {
+    void updateProduct_whenValidRequest_thenReturnUpdatedProduct() {
         Product product = createProduct();
 
         SaveProductRequest request = new SaveProductRequest();
@@ -105,8 +104,6 @@ public class ProductServiceIntegrationTest {
         assertThat(product.getName(), is(request.getName()));
         assertThat(product.getQuantity(), is(request.getQuantity()));
         assertThat(product.getPrice(), is(request.getPrice()));
-
         return product;
     }
-
 }
