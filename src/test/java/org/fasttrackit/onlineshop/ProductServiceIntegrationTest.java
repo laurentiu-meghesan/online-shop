@@ -3,6 +3,7 @@ package org.fasttrackit.onlineshop;
 import org.fasttrackit.onlineshop.domain.Product;
 import org.fasttrackit.onlineshop.exception.ResourceNotFoundException;
 import org.fasttrackit.onlineshop.service.ProductService;
+import org.fasttrackit.onlineshop.steps.ProductTestSteps;
 import org.fasttrackit.onlineshop.transfer.product.SaveProductRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,9 +23,12 @@ public class ProductServiceIntegrationTest {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductTestSteps productTestSteps;
+
     @Test
     void createProduct_whenValidRequest_thenProductIsCreated() {
-        createProduct();
+        productTestSteps.createProduct();
     }
 
     @Test
@@ -91,19 +95,5 @@ public class ProductServiceIntegrationTest {
     }
 
 
-    private Product createProduct() {
-        SaveProductRequest request = new SaveProductRequest();
-        request.setName("Phone");
-        request.setQuantity(100);
-        request.setPrice(300.5);
 
-        Product product = productService.createProduct(request);
-
-        assertThat(product, notNullValue());
-        assertThat(product.getId(), greaterThan(0L));
-        assertThat(product.getName(), is(request.getName()));
-        assertThat(product.getQuantity(), is(request.getQuantity()));
-        assertThat(product.getPrice(), is(request.getPrice()));
-        return product;
-    }
 }
