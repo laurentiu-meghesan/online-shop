@@ -28,5 +28,7 @@ public class CustomerTestSteps {
         assertThat(customer.getId(), greaterThan(0L));
         assertThat(customer.getFirstName(), is(request.getFirstName()));
         assertThat(customer.getLastName(), is(request.getLastName()));
+
+        return customer;
     }
 }

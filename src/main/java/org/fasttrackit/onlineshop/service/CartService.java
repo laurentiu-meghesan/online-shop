@@ -5,12 +5,12 @@ import org.fasttrackit.onlineshop.domain.Customer;
 import org.fasttrackit.onlineshop.domain.Product;
 import org.fasttrackit.onlineshop.persistance.CartRepository;
 import org.fasttrackit.onlineshop.transfer.cart.AddProductsToCartRequest;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.logging.Logger;
 
 @Service
 public class CartService {
@@ -19,13 +19,11 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
-    private final ProductService productService;
 
     @Autowired
-    public CartService(CartRepository cartRepository, CustomerService customerService, ProductService productService){
+    public CartService(CartRepository cartRepository, CustomerService customerService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
-        this.productService = productService;
     }
 
     @Transactional
