@@ -19,11 +19,13 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
+    private final ProductService productService;
 
     @Autowired
-    public CartService(CartRepository cartRepository, CustomerService customerService) {
+    public CartService(CartRepository cartRepository, CustomerService customerService, ProductService productService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
+        this.productService = productService;
     }
 
     @Transactional

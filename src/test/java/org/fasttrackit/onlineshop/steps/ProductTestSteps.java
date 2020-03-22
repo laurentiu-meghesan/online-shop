@@ -17,7 +17,7 @@ public class ProductTestSteps {
     @Autowired
     private ProductService productService;
 
-    private Product createProduct() {
+    public Product createProduct() {
         SaveProductRequest request = new SaveProductRequest();
         request.setName("Phone");
         request.setQuantity(100);
@@ -30,6 +30,7 @@ public class ProductTestSteps {
         assertThat(product.getName(), is(request.getName()));
         assertThat(product.getQuantity(), is(request.getQuantity()));
         assertThat(product.getPrice(), is(request.getPrice()));
+
         return product;
     }
 }

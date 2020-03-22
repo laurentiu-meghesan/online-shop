@@ -14,7 +14,6 @@ import org.springframework.transaction.TransactionSystemException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 
 @SpringBootTest
 public class ProductServiceIntegrationTest {
@@ -47,7 +46,7 @@ public class ProductServiceIntegrationTest {
 
     @Test
     void getProduct_whenExistingProduct_thenReturnProduct() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         Product response = productService.getProduct(product.getId());
 
@@ -67,7 +66,7 @@ public class ProductServiceIntegrationTest {
 
     @Test
     void updateProduct_whenValidRequest_thenReturnUpdatedProduct() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         SaveProductRequest request = new SaveProductRequest();
         request.setName(product.getName() + "updated");
@@ -87,13 +86,11 @@ public class ProductServiceIntegrationTest {
 
     @Test
     void deleteProduct_whenExistingProduct_thenProductDoesNotExistAnymore() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         productService.deleteProduct(product.getId());
 
         Assertions.assertThrows(ResourceNotFoundException.class, () -> productService.getProduct(product.getId()));
     }
-
-
 
 }
