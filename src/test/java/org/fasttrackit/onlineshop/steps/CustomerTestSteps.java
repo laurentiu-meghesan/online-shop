@@ -20,7 +20,7 @@ public class CustomerTestSteps {
     public Customer createCustomer(){
         SaveCustomerRequest request = new SaveCustomerRequest();
         request.setFirstName("FirstName");
-        request.setFirstName("LastName");
+        request.setLastName("LastName");
 
         Customer customer = customerService.createCustomer(request);
 
