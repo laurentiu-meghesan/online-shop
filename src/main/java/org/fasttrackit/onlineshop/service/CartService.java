@@ -36,18 +36,18 @@ public class CartService {
     }
 
     @Transactional
-    public void addProductsToCart(AddProductsToCartRequest request){
+    public void addProductsToCart(AddProductsToCartRequest request) {
         LOGGER.info("Adding products to cart: {}", request);
 
         Cart cart = cartRepository.findById(request.getCustomerId()).orElse(new Cart());
 
-        if (cart.getCustomer() == null){
+        if (cart.getCustomer() == null) {
             Customer customer = customerService.getCustomer(request.getCustomerId());
 
             cart.setCustomer(customer);
         }
 
-        for (Long id: request.getProductIds()) {
+        for (Long id : request.getProductIds()) {
             Product product = productService.getProduct(id);
             cart.addProductToCart(product);
         }
@@ -55,9 +55,9 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-//    returning DTO to avoid Lazy Loading exceptions
+    //    returning DTO to avoid Lazy Loading exceptions
     @Transactional
-    public CartResponse getCart(long customerId){
+    public CartResponse getCart(long customerId) {
         LOGGER.info("Retrieving cart items for customer {}", customerId);
 
         Cart cart = cartRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException
@@ -68,11 +68,7 @@ public class CartService {
 
         Set<ProductInCartResponse> productDtos = new HashSet<>();
 
-        Iterator<Product> productIterator = cart.getProducts().iterator();
-
-        while (productIterator.hasNext()){
-            Product nextProduct = productIterator.next();
-
+        for (Product nextProduct : cart.getProducts()) {
             ProductInCartResponse productDto = new ProductInCartResponse();
             productDto.setId(nextProduct.getId());
             productDto.setName(nextProduct.getName());
